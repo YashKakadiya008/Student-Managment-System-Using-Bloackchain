@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useResult } from '../../context/ResultContext'; // Import the Result context
+import { useResult } from '../../context/ResultContext'; 
 import { useBlockchain } from '../../context/BlockchainContext';
-import jsPDF from 'jspdf';
 
 const Result = () => {
-  const { semesterCount, getStudentResult } = useResult(); // Destructure context
-  const { account } = useBlockchain(); // Access account from Blockchain context
-  const [results, setResults] = useState([]); // Store all results
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(''); // Error state
+  const { semesterCount, getStudentResult } = useResult();
+  const { account } = useBlockchain();
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchAllResults = async () => {
@@ -17,7 +16,6 @@ const Result = () => {
       const allResults = [];
 
       try {
-        // Loop through all semesters and fetch results for the given student
         for (let semesterId = 0; semesterId < semesterCount; semesterId++) {
           const result = await getStudentResult(semesterId, account);
           if (result) {
@@ -41,16 +39,16 @@ const Result = () => {
   const download = async (hash) => {
     try {
       const response = await fetch(`https://gateway.pinata.cloud/ipfs/${hash}`);
-      const blob = await response.blob(); // Get the PDF as a Blob
-      const url = URL.createObjectURL(blob); // Create an object URL for the Blob
-  
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
       const link = document.createElement('a');
       link.href = url;
-      link.download = `result_${hash}.pdf`; // Set the file name here
+      link.download = `result_${hash}.pdf`;
       document.body.appendChild(link);
-      link.click(); // Trigger download
-      document.body.removeChild(link); // Clean up
-      URL.revokeObjectURL(url); // Release memory
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error downloading PDF:', error);
     }
@@ -73,11 +71,11 @@ const Result = () => {
           {results.map((result, index) => (
             <li key={index} className="mb-2 p-2 border border-gray-300 rounded">
               <div>
-                <strong>Semester:</strong> {(result.semesterId)+1}
+                <strong>Semester:</strong> {(result.semesterId) + 1}
               </div>
               <div>
                 <strong>Result:</strong>
-                { false ? <img
+                {false ? <img
                   src={`https://gateway.pinata.cloud/ipfs/${result.resultHash}`}
                   alt={`Result for semester ${result.semesterId}`}
                   className="my-2 w-full h-auto"

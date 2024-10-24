@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import web3 from '../../web3';
 
 const UpdateStudentForm = ({ studentFactoryContract, account }) => {
-  const { studentAccount } = useParams(); // Extracting studentAccount from URL parameters
+  const { studentAccount } = useParams();
   const [studentContract, setStudentContract] = useState(null);
   const [id, setId] = useState('');
   const [name, setName] = useState('');
@@ -12,8 +12,8 @@ const UpdateStudentForm = ({ studentFactoryContract, account }) => {
   const [gmail, setGmail] = useState('');
   const [mobileNo, setMobileNo] = useState('');
   const [course, setCourse] = useState('');
-  const [admin, setAdmin] = useState(account); // Admin will be the account provided
-  
+  const [admin] = useState(account);
+
   useEffect(() => {
     const loadStudentDetails = async () => {
       if (!studentAccount || !web3.utils.isAddress(studentAccount)) {
@@ -26,7 +26,6 @@ const UpdateStudentForm = ({ studentFactoryContract, account }) => {
         const studentContractInstance = new web3.eth.Contract(Student.abi, studentAddress);
         setStudentContract(studentContractInstance);
 
-        // Load student details from contract
         const studentId = await studentContractInstance.methods.id().call();
         const studentName = await studentContractInstance.methods.name().call();
         const studentAge = await studentContractInstance.methods.age().call();
@@ -34,7 +33,6 @@ const UpdateStudentForm = ({ studentFactoryContract, account }) => {
         const studentMobileNo = await studentContractInstance.methods.mobile_no().call();
         const studentCourse = await studentContractInstance.methods.course().call();
 
-        // Set the state with the student details
         setId(studentId);
         setName(studentName);
         setAge(studentAge);

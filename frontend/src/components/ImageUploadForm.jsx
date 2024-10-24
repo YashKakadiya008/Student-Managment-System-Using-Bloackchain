@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useIpfs } from '../context/IpfsContext';
 
 function ImageUploadForm() {
-    const { photoHash, setPhotoHash } = useIpfs();
+    const { setPhotoHash } = useIpfs();
     const [file, setFile] = useState(null);
     const [ipfsHash, setIpfsHash] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -13,10 +13,10 @@ function ImageUploadForm() {
 
     const uploadToPinata = async (file) => {
         const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
-    
+
         const formData = new FormData();
         formData.append('file', file);
-    
+
         const options = {
             method: 'POST',
             body: formData,
@@ -25,14 +25,14 @@ function ImageUploadForm() {
                 'pinata_secret_api_key': pinataSecretApiKey
             },
         };
-    
+
         try {
             const response = await fetch(url, options);
             if (!response.ok) {
                 throw new Error(`Failed to upload: ${response.statusText}`);
             }
             const result = await response.json();
-            return result.IpfsHash; 
+            return result.IpfsHash;
         } catch (error) {
             console.error('Error uploading to Pinata:', error);
             setErrorMessage(`Failed to upload image to IPFS: ${error.message}`);
@@ -44,7 +44,7 @@ function ImageUploadForm() {
         const selectedFile = event.target.files[0];
         if (selectedFile && selectedFile.type === 'image/jpeg') {
             setFile(selectedFile);
-            setImagePreview(URL.createObjectURL(selectedFile)); // For previewing the image before upload
+            setImagePreview(URL.createObjectURL(selectedFile));
         } else {
             setErrorMessage('Please select a valid .jpg file.');
             setFile(null);
@@ -69,22 +69,20 @@ function ImageUploadForm() {
 
     return (
         <div>
-            {/* Hidden file input */}
             <input
                 id="fileInput"
                 type="file"
                 accept="image/jpeg"
                 onChange={handleFileChange}
-                style={{ display: 'none' }} // Hide the file input
+                style={{ display: 'none' }}
             />
 
-            {/* Custom clickable frame */}
             <div
                 onClick={handleFrameClick}
                 style={{
                     width: '150px',
                     height: '200px',
-                    border: '2px dashed #ccc', // Dashed border for the frame
+                    border: '2px dashed #ccc',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

@@ -13,19 +13,19 @@ function AddStudentForm({ studentFactoryContract, account }) {
   const [studentAccount, setStudentAccount] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const { photoHash,setPhotoHash} = useIpfs();
+  const { photoHash, setPhotoHash } = useIpfs();
 
-  const addStudent = async (photo,id, name, age, gmail, mobile_no, course, accounts) => {
+  const addStudent = async (photo, id, name, age, gmail, mobile_no, course, accounts) => {
     if (!isValidAge(age) || !isValidMobileNo(mobile_no)) {
       setError("Invalid age or mobile number.");
       return;
     }
-    
+
     setLoading(true);
     try {
-      await studentFactoryContract.methods.createStudent(photo,id, name, parseInt(age), gmail, parseInt(mobile_no), course, accounts).send({ from: account, gas: 5000000 });
+      await studentFactoryContract.methods.createStudent(photo, id, name, parseInt(age), gmail, parseInt(mobile_no), course, accounts).send({ from: account, gas: 5000000 });
       console.log("Student added successfully");
-     
+
       setPhotoHash("");
       setStudentId("");
       setStudentName("");
@@ -48,7 +48,7 @@ function AddStudentForm({ studentFactoryContract, account }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addStudent(photoHash,studentId, studentName, studentAge, studentGmail, studentMobileNo, studentCourse, studentAccount);
+    addStudent(photoHash, studentId, studentName, studentAge, studentGmail, studentMobileNo, studentCourse, studentAccount);
   };
 
   return (
@@ -113,7 +113,7 @@ function AddStudentForm({ studentFactoryContract, account }) {
           required
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
         />
-        <ImageUploadForm/>
+        <ImageUploadForm />
         <button
           type="submit"
           className="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200"

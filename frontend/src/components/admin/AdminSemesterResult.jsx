@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useResult } from '../../context/ResultContext'; // Import the Result context
+import { useResult } from '../../context/ResultContext';
 import { useBlockchain } from '../../context/BlockchainContext';
 
 const AdminSemesterResults = () => {
-  const { semesterCount, getStudentResult } = useResult(); // Destructure context
-  const { resultContract } = useBlockchain(); // Access result contract
-  const [semesters, setSemesters] = useState([]); // Store all created semesters
-  const [selectedSemesterId, setSelectedSemesterId] = useState(null); // Store selected semester
-  const [studentResults, setStudentResults] = useState([]); // Store results for selected semester
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(''); // Error state
+  const { semesterCount, getStudentResult } = useResult();
+  const { resultContract } = useBlockchain();
+  const [semesters, setSemesters] = useState([]);
+  const [selectedSemesterId, setSelectedSemesterId] = useState(null);
+  const [studentResults, setStudentResults] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchSemesters = async () => {
@@ -18,7 +18,7 @@ const AdminSemesterResults = () => {
       const allSemesters = [];
 
       try {
-        // Fetch all semester names
+
         for (let i = 0; i < semesterCount; i++) {
           const semesterName = await resultContract.methods.semesterResults(i).call();
           allSemesters.push({ id: i, name: semesterName.semesterName });
@@ -42,7 +42,7 @@ const AdminSemesterResults = () => {
 
     try {
       const allResults = [];
-      // Fetch all student addresses for the selected semester
+
       const studentAddresses = await resultContract.methods.getAllStudentsForSemester(semesterId).call();
 
       for (const address of studentAddresses) {
@@ -75,7 +75,7 @@ const AdminSemesterResults = () => {
               className="cursor-pointer mb-2 p-2 border border-gray-300 rounded hover:bg-gray-100"
               onClick={() => handleSemesterClick(semester.id)}
             >
-              {semester.name}
+              semester - {semester.id + 1}
             </li>
           ))}
         </ul>
@@ -83,7 +83,7 @@ const AdminSemesterResults = () => {
 
       {selectedSemesterId !== null && (
         <div className="mt-4">
-          <h3 className="text-lg font-semibold">Results for Semester: {selectedSemesterId}</h3>
+          <h3 className="text-lg font-semibold">Results for Semester: {selectedSemesterId + 1}</h3>
           {loading ? (
             <p>Loading results...</p>
           ) : studentResults.length === 0 ? (

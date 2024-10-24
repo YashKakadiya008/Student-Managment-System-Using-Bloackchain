@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import web3 from '../../web3';
-import Teacher from '../../contracts/Teacher.json';
+import React, { useEffect } from 'react';
 import TeacherCard from './TeacherCard';
-import {useStudentTeacher} from '../../context/StudentTeacherContext';
+import { useStudentTeacher } from '../../context/StudentTeacherContext';
 
 const ViewTeacherDetails = () => {
-  const { 
-        account,
-        teachers,
-        error,
-        deleteTeacher,
-        loadAllStudents,
-        loadAllTeachers
+  const {
+    account,
+    teachers,
+    error,
+    deleteTeacher,
+    loadAllStudents,
+    loadAllTeachers
   } = useStudentTeacher();
 
   useEffect(() => {
     loadAllStudents();
     loadAllTeachers();
   }, []);
-  
+
 
   return (
     <div className="container mx-auto p-4">
@@ -28,7 +26,7 @@ const ViewTeacherDetails = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {teachers.length > 0
-          ? <TeacherCard teachers={teachers} deleteTeacher={deleteTeacher} account={account}/>
+          ? <TeacherCard teachers={teachers} deleteTeacher={deleteTeacher} account={account} />
           : <div>No teachers found.</div>}
       </div>
     </div>

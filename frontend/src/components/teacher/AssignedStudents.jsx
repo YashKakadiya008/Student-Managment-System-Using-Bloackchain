@@ -4,7 +4,7 @@ import Student from '../../contracts/Student.json';
 import { useNavigate } from 'react-router-dom';
 
 
-function AssignedStudents({ teacherFactoryContract, studentFactoryContract, account }) {
+function AssignedStudents({ studentFactoryContract, account }) {
   const [assignedStudents, setAssignedStudents] = useState([]);
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,7 +32,7 @@ function AssignedStudents({ teacherFactoryContract, studentFactoryContract, acco
         const studentContractAddress = await studentFactoryContract.methods.getStudent(studentAccounts[i]).call();
         const studentContract = new web3.eth.Contract(Student.abi, studentContractAddress);
         const assign_teacher = await studentContract.methods.teacher().call();
-        
+
         if (assign_teacher === account) {
           studentsForTeacher.push(studentContract);
         }
@@ -41,7 +41,7 @@ function AssignedStudents({ teacherFactoryContract, studentFactoryContract, acco
       setAssignedStudents(studentsForTeacher);
     } catch (error) {
       console.error("Error fetching assigned students:", error);
-      setError('Error fetching assigned students.'); 
+      setError('Error fetching assigned students.');
     } finally {
       setLoading(false);
     }
@@ -88,8 +88,7 @@ function AssignedStudents({ teacherFactoryContract, studentFactoryContract, acco
 
     try {
       await studentContract.methods.addRemarks(remark).send({ from: account });
-      
-      // Update local state to reflect the new remark
+
       setStudents((prevStudents) =>
         prevStudents.map((student) =>
           student.studentAccount === studentAccount
@@ -114,7 +113,7 @@ function AssignedStudents({ teacherFactoryContract, studentFactoryContract, acco
   }
 
   if (error) {
-    return <p>{error}</p>; 
+    return <p>{error}</p>;
   }
 
   if (assignedStudents.length === 0) {
@@ -166,13 +165,13 @@ function AssignedStudents({ teacherFactoryContract, studentFactoryContract, acco
                   </button>
                 </td>
                 <td className="border px-4 py-2">
-                <button
-          onClick={() => handleUpdateClick(student.studentAccount)}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Event
-        </button>
-        </td>
+                  <button
+                    onClick={() => handleUpdateClick(student.studentAccount)}
+                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                  >
+                    Event
+                  </button>
+                </td>
               </tr>
             ))
           ) : (

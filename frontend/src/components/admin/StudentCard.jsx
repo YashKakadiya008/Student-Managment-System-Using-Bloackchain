@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const StudentCard = ({ students, deleteStudent,account }) => {
-  const navigate = useNavigate(); // Use useNavigate for programmatic navigation
+const StudentCard = ({ students, deleteStudent, account }) => {
+  const navigate = useNavigate();
 
   const handleUpdateClick = (studentAccount) => {
     navigate(`update-student/${studentAccount}`);
@@ -15,7 +15,7 @@ const StudentCard = ({ students, deleteStudent,account }) => {
   const handleDeleteStudent = (studentAccount) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this student?');
     if (confirmDelete) {
-      deleteStudent(studentAccount,account);
+      deleteStudent(studentAccount, account);
     }
   };
 
@@ -48,7 +48,7 @@ const StudentCard = ({ students, deleteStudent,account }) => {
 
               <td className="border px-4 py-2">
                 <button
-                  onClick={() => handleDeleteStudent(student.account)} 
+                  onClick={() => handleDeleteStudent(student.account)}
                   className="bg-red-500 text-white px-4 py-2 rounded"
                 >
                   Delete

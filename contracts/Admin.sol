@@ -5,7 +5,7 @@ contract Admin {
     address public admin;
 
     constructor() {
-        admin = msg.sender;   
+        admin = msg.sender;
     }
 
     modifier onlyAdmin() {

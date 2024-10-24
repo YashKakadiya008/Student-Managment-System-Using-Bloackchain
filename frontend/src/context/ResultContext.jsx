@@ -1,25 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useBlockchain } from './BlockchainContext'; // Import BlockchainContext
+import { useBlockchain } from './BlockchainContext';
 
-// Create the context
-const ResultContext = createContext(); // This is used internally but not exported
+const ResultContext = createContext();
 
-// Export the useContext hook for easy access
 export const useResult = () => useContext(ResultContext);
 
-// Export the provider for wrapping components
 export const ResultProvider = ({ children }) => {
   const {
     account,
-    studentFactoryContract,
-    teacherFactoryContract,
-    adminContract,
-    resultContract // Result contract from BlockchainContext
+    resultContract
   } = useBlockchain();
 
   const [semesterCount, setSemesterCount] = useState(0);
 
-  // Initialize the ResultContract and fetch initial semester count
   useEffect(() => {
     const fetchSemesterCount = async () => {
       if (resultContract) {
@@ -31,15 +24,13 @@ export const ResultProvider = ({ children }) => {
     fetchSemesterCount();
   }, [resultContract]);
 
-  // Function to create a new semester
   const createSemester = async (semesterName) => {
     if (!resultContract) return;
     try {
       await resultContract.methods
         .createSemesterResult(semesterName)
         .send({ from: account });
-      console.log("createSemester:",semesterName )
-      // Update semester count after the semester is created
+      console.log("createSemester:", semesterName)
       const updatedCount = await resultContract.methods.semesterCount().call();
       setSemesterCount(updatedCount);
     } catch (error) {
@@ -47,19 +38,17 @@ export const ResultProvider = ({ children }) => {
     }
   };
 
-  // Function to add a student's result
   const addStudentResult = async (semesterId, studentAddress, resultHash) => {
     if (!resultContract) return;
     try {
       await resultContract.methods
         .addStudentResult(semesterId, studentAddress, resultHash)
-        .send({ from: account , gas: 5000000 });
+        .send({ from: account, gas: 5000000 });
     } catch (error) {
       console.error('Error adding student result:', error);
     }
   };
 
-  // Function to fetch a student's result
   const getStudentResult = async (semesterId, studentAddress) => {
     if (!resultContract) return;
     try {
@@ -72,7 +61,6 @@ export const ResultProvider = ({ children }) => {
     }
   };
 
-  // Function to verify a student's result
   const verifyStudentResult = async (semesterId, studentAddress, hashToCheck) => {
     if (!resultContract) return;
     try {

@@ -5,23 +5,21 @@ import { useStudentTeacher } from '../../context/StudentTeacherContext';
 import { useNavigate } from 'react-router-dom';
 import web3 from '../../web3';
 
-const ViewSpreadSheet = () => { 
+const ViewSpreadSheet = () => {
   const { getSpreadSheets } = useStudentTeacher();
-  
+
   const [spreadsheets, setSpreadsheets] = useState([]);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true); // Added loading state
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { studentFactoryContract, account } = useBlockchain();
   const [studentContract, setStudentContract] = useState(null);
   const [studentDetails, setStudentDetails] = useState({});
 
-  // Load student contract on component mount
   useEffect(() => {
     loadStudent();
   }, []);
 
-  // Load student details when studentContract is set
   useEffect(() => {
     if (studentContract) {
       loadStudentDetails();
@@ -30,7 +28,7 @@ const ViewSpreadSheet = () => {
 
   const loadStudent = async () => {
     try {
-      setLoading(true);  // Set loading to true while fetching
+      setLoading(true);
       const studentContractAddress = await studentFactoryContract.methods.getStudent(account).call();
       const student_Contract = new web3.eth.Contract(Student.abi, studentContractAddress);
       setStudentContract(student_Contract);
@@ -38,7 +36,7 @@ const ViewSpreadSheet = () => {
       console.error("Error loading student contract:", error);
       setError("Failed to load student contract");
     } finally {
-      setLoading(false);  // Set loading to false after fetching
+      setLoading(false);
     }
   };
 
@@ -58,19 +56,17 @@ const ViewSpreadSheet = () => {
     }
   };
 
-  // Fetch spreadsheets when teacher is available
   useEffect(() => {
     const fetchSpreadsheets = async () => {
       try {
-        setLoading(true); // Loading while fetching spreadsheets
+        setLoading(true);
         if (!studentDetails.teacher) {
           console.error('Teacher not found in student details');
-          return; // Exit early if teacher is not set
+          return;
         }
 
         const fetchedSpreadsheets = await getSpreadSheets(studentDetails.teacher);
 
-        // Check and log fetched data
         if (Array.isArray(fetchedSpreadsheets)) {
           console.log("Fetched Spreadsheets:", fetchedSpreadsheets);
           setSpreadsheets(fetchedSpreadsheets);
@@ -81,7 +77,7 @@ const ViewSpreadSheet = () => {
         console.error('Error fetching spreadsheets:', err);
         setError('Failed to load spreadsheets. Please try again later.');
       } finally {
-        setLoading(false); // Loading is false after fetching
+        setLoading(false);
       }
     };
 
@@ -90,20 +86,19 @@ const ViewSpreadSheet = () => {
     }
   }, [studentDetails.teacher, getSpreadSheets]);
 
-  // Handle the navigation to view the spreadsheet
   const handleSheetClick = (sheetlink) => {
-    const encodedLink = encodeURIComponent(sheetlink); // Encode the link
+    const encodedLink = encodeURIComponent(sheetlink);
     navigate(`goolespreadsheet/${encodedLink}`);
   };
 
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Spreadsheets</h2>
-      
+
       {loading ? (
-        <p>Loading...</p>  // Show loading while fetching
+        <p>Loading...</p>
       ) : error ? (
-        <p className="text-red-500">{error}</p>  // Show error if any
+        <p className="text-red-500">{error}</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {spreadsheets.length > 0 ? (

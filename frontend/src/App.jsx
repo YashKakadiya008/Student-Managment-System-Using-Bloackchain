@@ -17,7 +17,6 @@ import Home from './components/Home';
 import ProtectedRoute from './components/ProtectedRoute';
 import View from './components/admin/View';
 import { useBlockchain } from './context/BlockchainContext';
-
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import UpdateRequestsStudent from './components/admin/UpdateRequestsStudent';
 import UpdateRequestsTeacher from './components/admin/UpdateRequestsTeacher';
@@ -35,15 +34,15 @@ function App() {
         account,
         setAccount,
         adminContract,
-       
+
         studentFactoryContract,
-       
+
         teacherFactoryContract,
-       
+
         loading,
-      
+
         networkError,
-       
+
         role,
         setRole,
         logout
@@ -51,11 +50,11 @@ function App() {
 
     const handleLogout = () => {
         logout();
-        navigate('/'); 
+        navigate('/');
     };
 
     if (loading) {
-        return <div>Loading blockchain data...</div>;  
+        return <div>Loading blockchain data...</div>;
     }
 
     if (networkError) {
@@ -75,11 +74,11 @@ function App() {
                     <AccountInput
                         setRole={(r) => {
                             setRole(r);
-                            localStorage.setItem('role', r); 
+                            localStorage.setItem('role', r);
                         }}
                         setAccount={(acc) => {
                             setAccount(acc);
-                            localStorage.setItem('account', acc); 
+                            localStorage.setItem('account', acc);
                         }}
                         adminContract={adminContract}
                         studentFactoryContract={studentFactoryContract}
@@ -97,7 +96,7 @@ function App() {
                 <Route path="view-students" element={<ViewStudentDetails studentFactoryContract={studentFactoryContract} teacherFactoryContract={teacherFactoryContract} account={account} />} />
                 <Route path="add-teacher" element={<AddTeacherForm teacherFactoryContract={teacherFactoryContract} account={account} />} />
                 <Route path="view-teachers" element={<ViewTeacherDetails teacherFactoryContract={teacherFactoryContract} account={account} />} />
-                <Route path="create-semester" element={<AdminCreateSemester/>}/>
+                <Route path="create-semester" element={<AdminCreateSemester />} />
                 <Route path="update-requests-student" element={<UpdateRequestsStudent studentFactoryContract={studentFactoryContract} />} />
                 <Route path="update-requests-teacher" element={<UpdateRequestsTeacher tacherFactoryContract={teacherFactoryContract} />} />
                 <Route path="view-students/view/:studentAccount" element={<View />} />
@@ -165,10 +164,10 @@ function App() {
                 <Route index element={<Home />} />
                 <Route path="teacher-profile" element={<TeacherProfile teacherFactoryContract={teacherFactoryContract} account={account} />} />
                 <Route path="assigned-student" element={<AssignedStudents studentFactoryContract={studentFactoryContract} account={account} />} />
-                <Route path="assigned-student/view-event/:studentAccount" element={<ViewStudentEvent/>} />
-                <Route path="add-result" element={<AddResult/>} />
-                <Route path="manage-spreadsheets" element={<ManageSpreadsheets/>} />
-                <Route path="manage-spreadsheets/goolespreadsheet/:sheetlink" element={<GoogleSpreadSheet/>} />
+                <Route path="assigned-student/view-event/:studentAccount" element={<ViewStudentEvent />} />
+                <Route path="add-result" element={<AddResult />} />
+                <Route path="manage-spreadsheets" element={<ManageSpreadsheets />} />
+                <Route path="manage-spreadsheets/goolespreadsheet/:sheetlink" element={<GoogleSpreadSheet />} />
             </Route>
             <Route
                 path="/student"
@@ -179,8 +178,8 @@ function App() {
                 <Route path="student-profile" element={<StudentProfile studentFactoryContract={studentFactoryContract} account={account} />} />
                 <Route path="student-event-achievement" element={<EventAchievement />} />
                 <Route path="student-result" element={<Result />} />
-                <Route path="view-spreadsheet" element={<ViewSpreadSheet/>} />
-                <Route path="view-spreadsheet/goolespreadsheet/:sheetlink" element={<GoogleSpreadSheet/>} />
+                <Route path="view-spreadsheet" element={<ViewSpreadSheet />} />
+                <Route path="view-spreadsheet/goolespreadsheet/:sheetlink" element={<GoogleSpreadSheet />} />
             </Route>
 
 

@@ -18,7 +18,7 @@ export const BlockchainProvider = ({ children }) => {
     const [networkError, setNetworkError] = useState("");
     const [role, setRole] = useState(localStorage.getItem('role') || '');
     const [loading, setLoading] = useState(true);
-  
+
 
     useEffect(() => {
         const loadBlockchainData = async () => {
@@ -29,17 +29,17 @@ export const BlockchainProvider = ({ children }) => {
 
                 const networkId = await web3.eth.net.getId();
                 console.log("Network ID:", networkId);
-                
+
                 const adminNetworkData = Admin.networks[networkId];
                 const studentFactoryNetworkData = StudentFactory.networks[networkId];
                 const teacherFactoryNetworkData = TeacherFactory.networks[networkId];
                 const resultNetworkData = ResultContract.networks[networkId];
 
-                if (adminNetworkData && studentFactoryNetworkData && teacherFactoryNetworkData && resultNetworkData ) {
+                if (adminNetworkData && studentFactoryNetworkData && teacherFactoryNetworkData && resultNetworkData) {
                     const adminContractInstance = new web3.eth.Contract(Admin.abi, adminNetworkData.address);
                     const studentFactoryContractInstance = new web3.eth.Contract(StudentFactory.abi, studentFactoryNetworkData.address);
                     const teacherFactoryContractInstance = new web3.eth.Contract(TeacherFactory.abi, teacherFactoryNetworkData.address);
-                    const resultContractInstance = new web3.eth.Contract(ResultContract.abi,resultNetworkData.address);
+                    const resultContractInstance = new web3.eth.Contract(ResultContract.abi, resultNetworkData.address);
 
                     setAdminContract(adminContractInstance);
                     setStudentFactoryContract(studentFactoryContractInstance);
@@ -57,13 +57,13 @@ export const BlockchainProvider = ({ children }) => {
         };
 
         loadBlockchainData();
-    }, []); // Empty dependency array
+    }, []);
 
-    const logout= ()=>{
+    const logout = () => {
         setRole('');
         setAccount('');
-        localStorage.removeItem('role'); // Clear role from localStorage
-        localStorage.removeItem('account'); // Clear account from localStorage
+        localStorage.removeItem('role');
+        localStorage.removeItem('account');
     };
 
     return (
@@ -82,7 +82,7 @@ export const BlockchainProvider = ({ children }) => {
             setLoading,
             networkError,
             setNetworkError,
-            role, 
+            role,
             setRole,
             logout
         }}>

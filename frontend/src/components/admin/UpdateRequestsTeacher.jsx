@@ -5,7 +5,7 @@ import Teacher from '../../contracts/Teacher.json';
 import { useBlockchain } from '../../context/BlockchainContext';
 
 function UpdateRequestsTeacher() {
-    const {teacherFactoryContract,account}= useBlockchain();
+    const { teacherFactoryContract } = useBlockchain();
     const [updateRequests, setUpdateRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -22,9 +22,9 @@ function UpdateRequestsTeacher() {
                 teacherAccounts.map(async (account) => {
                     const teacherContractAddress = await teacherFactoryContract.methods.getTeacher(account).call();
                     const teacherContract = new web3.eth.Contract(Teacher.abi, teacherContractAddress);
-                    const id = await teacherContract.methods.id().call(); // Assuming there is an id method
-                    const name = await teacherContract.methods.name().call(); // Assuming there is a name method
-                    return { account, id, name }; // Collect the details
+                    const id = await teacherContract.methods.id().call();
+                    const name = await teacherContract.methods.name().call();
+                    return { account, id, name };
                 })
             );
             setUpdateRequests(teachersWithDetails);
@@ -37,7 +37,7 @@ function UpdateRequestsTeacher() {
     };
 
     const handleUpdateClick = (teacherAccount) => {
-        navigate(`update-teacher/${teacherAccount}`); // Navigate to UpdateTeacherForm with account
+        navigate(`update-teacher/${teacherAccount}`);
     };
 
     if (loading) {
@@ -56,13 +56,13 @@ function UpdateRequestsTeacher() {
                     {updateRequests.map((teacher, index) => (
                         <li key={index} className="mb-2">
                             <div>
-                                <strong>Teacher ID:</strong> {teacher.id} {/* Display teacher ID */}
+                                <strong>Teacher ID:</strong> {teacher.id}
                             </div>
                             <div>
-                                <strong>Name:</strong> {teacher.name} {/* Display teacher name */}
+                                <strong>Name:</strong> {teacher.name}
                             </div>
                             <div>
-                                <strong>Account Number:</strong> {teacher.account} {/* Display account number */}
+                                <strong>Account Number:</strong> {teacher.account}
                             </div>
                             <button
                                 onClick={() => handleUpdateClick(teacher.account)}

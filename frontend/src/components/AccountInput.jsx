@@ -15,10 +15,9 @@ function AccountInput({ setRole, adminContract, studentFactoryContract, teacherF
             return;
         }
 
-        const formattedAccount = Web3.utils.toChecksumAddress(account);  // Ensure proper address format
+        const formattedAccount = Web3.utils.toChecksumAddress(account);
 
         try {
-            // Admin check
             const adminAddress = await adminContract.methods.admin().call();
             if (formattedAccount === Web3.utils.toChecksumAddress(adminAddress)) {
                 console.log('Admin found:', adminAddress);
@@ -33,7 +32,6 @@ function AccountInput({ setRole, adminContract, studentFactoryContract, teacherF
         let isStudent = false;
 
         try {
-            // Teacher check
             const teacher = await teacherFactoryContract.methods.getTeacher(formattedAccount).call();
             const teacherContract = new web3.eth.Contract(Teacher.abi, teacher);
             const teacher_account = await teacherContract.methods.account().call();
@@ -46,7 +44,6 @@ function AccountInput({ setRole, adminContract, studentFactoryContract, teacherF
         }
 
         try {
-            // Student check
             const student = await studentFactoryContract.methods.getStudent(formattedAccount).call();
             const studentContract = new web3.eth.Contract(Student.abi, student);
             const student_account = await studentContract.methods.account().call();
@@ -58,7 +55,6 @@ function AccountInput({ setRole, adminContract, studentFactoryContract, teacherF
             console.log('Not a Student:', err);
         }
 
-        // Logic to decide role
         if (isTeacher) {
             setRole('teacher');
         } else if (isStudent) {
@@ -71,23 +67,19 @@ function AccountInput({ setRole, adminContract, studentFactoryContract, teacherF
     return (
         <div className="flex items-center justify-center min-h-screen bg-teal-500">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
-                {/* Image at the top */}
                 <div className="flex justify-center mb-6">
-                    <img 
-                        src="../../public/image/login-logo.png"  // Replace with your actual image path
+                    <img
+                        src="../../public/image/login-logo.png"
                         alt="Admin Icon"
                         className="h-24 w-24"
                     />
                 </div>
 
-                {/* Admin Login Title */}
                 <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">
-                Enter your Ethereum account
+                    Enter your Ethereum account
                 </h2>
 
-                {/* Input form */}
                 <form onSubmit={handleSubmit}>
-                    {/* Account input field */}
                     <input
                         type="text"
                         placeholder="Enter Ethereum Address"
@@ -96,10 +88,8 @@ function AccountInput({ setRole, adminContract, studentFactoryContract, teacherF
                         className="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
 
-                    {/* Error message */}
                     {error && <p className="text-red-500 mb-4">{error}</p>}
 
-                    {/* Submit button */}
                     <button
                         type="submit"
                         className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-900 transition duration-200"

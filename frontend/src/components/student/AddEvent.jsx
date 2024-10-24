@@ -25,25 +25,20 @@ const AddEvent = () => {
   const handleAddEvent = async (e) => {
     e.preventDefault();
 
-    // Check for required fields
     if (!eventName || !eventDate || !resultHash) {
       alert('Please fill in all fields.');
       return;
     }
 
-    // Convert eventDate (actual date) to Unix timestamp
     const unixTimestamp = Math.floor(new Date(eventDate).getTime() / 1000);
 
-    // Add the certificate
     await addCertificate(account, eventName, BigInt(unixTimestamp), resultHash, eventRemark);
 
-    // Clear the form fields
     setEventName('');
     setEventDate('');
     setResultHash('');
     setEventRemark('');
 
-    // Refresh the certificates after adding a new one
     const updatedCertificates = await getCertificates(account);
     setCertificates(updatedCertificates);
   };
@@ -88,21 +83,19 @@ const AddEvent = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {certificates.length > 0 ? (
           certificates.map((cert, index) => (
-           <div key={index} className="border rounded p-4 shadow">
-  <h3 className="text-xl font-semibold">{cert.eventName}</h3>
-  <p className="mt-2">Date: {new Date(cert.eventDate.toString() * 1000).toLocaleDateString()}</p>
+            <div key={index} className="border rounded p-4 shadow">
+              <h3 className="text-xl font-semibold">{cert.eventName}</h3>
+              <p className="mt-2">Date: {new Date(cert.eventDate.toString() * 1000).toLocaleDateString()}</p>
 
-  {/* Ensure the file hash breaks into new lines as needed */}
-  <p className="mt-2 break-words">File Hash: {cert.fileHash}</p>
+              <p className="mt-2 break-words">File Hash: {cert.fileHash}</p>
 
-  {/* Display certificate image using IPFS link */}
-  <img
-    src={`https://ipfs.io/ipfs/${cert.fileHash}`}
-    alt="Certificate"
-    className="mt-2 max-w-full h-auto"
-  />
-  <p className="mt-2">Remark: {cert.eventRemark}</p>
-</div>
+              <img
+                src={`https://ipfs.io/ipfs/${cert.fileHash}`}
+                alt="Certificate"
+                className="mt-2 max-w-full h-auto"
+              />
+              <p className="mt-2">Remark: {cert.eventRemark}</p>
+            </div>
 
           ))
         ) : (

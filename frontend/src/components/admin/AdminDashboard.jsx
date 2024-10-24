@@ -8,15 +8,15 @@ const adminLinks = [
     { to: 'view-teachers', label: 'View Teachers' },
     { to: 'update-requests-student', label: 'Update Requests Student' },
     { to: 'update-requests-teacher', label: 'Update Requests Teacher' },
-    { to: 'create-semester', label: 'Result'}
+    { to: 'create-semester', label: 'Result' }
 ];
 
-function AdminDashboard({handleLogout}) {
+function AdminDashboard({ handleLogout }) {
     return (
-        <Dashboard 
-            role="admin" 
-            links={adminLinks} 
-            handleLogout={handleLogout} 
+        <Dashboard
+            role="admin"
+            links={adminLinks}
+            handleLogout={handleLogout}
         />
     );
 }

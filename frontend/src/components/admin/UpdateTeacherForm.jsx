@@ -4,14 +4,14 @@ import { useParams } from 'react-router-dom';
 import web3 from '../../web3';
 
 const UpdateTeacherForm = ({ teacherFactoryContract, account }) => {
-  const { teacherAccount } = useParams(); // Extracting teacherAccount from URL parameters
+  const { teacherAccount } = useParams();
   const [teacherContract, setTeacherContract] = useState(null);
   const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [subject, setSubject] = useState('');
   const [gmail, setGmail] = useState('');
-  const [admin, setAdmin] = useState(account); // Admin will be the account provided
-  
+  const [admin] = useState(account);
+
   useEffect(() => {
     const loadTeacherDetails = async () => {
       if (!teacherAccount || !web3.utils.isAddress(teacherAccount)) {
@@ -23,18 +23,18 @@ const UpdateTeacherForm = ({ teacherFactoryContract, account }) => {
         const teacherContractInstance = new web3.eth.Contract(Teacher.abi, teacherAddress);
         setTeacherContract(teacherContractInstance);
 
-        // Load teacher details from contract
+
         const teacherId = await teacherContractInstance.methods.id().call();
         const teacherName = await teacherContractInstance.methods.name().call();
         const teacherSubject = await teacherContractInstance.methods.subject().call();
         const teacherGmail = await teacherContractInstance.methods.gmail().call();
 
-        // Set the state with the teacher details
+
         setId(teacherId);
         setName(teacherName);
         setSubject(teacherSubject);
         setGmail(teacherGmail);
-        
+
       } catch (error) {
         console.error("Error loading teacher details:", error);
       }

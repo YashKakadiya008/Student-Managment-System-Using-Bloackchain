@@ -6,14 +6,14 @@ import './index.css';
 import { BlockchainProvider } from './context/BlockchainContext.jsx';
 import { StudentTeacherProvider } from './context/StudentTeacherContext.jsx';
 import { IpfsProvider } from './context/IpfsContext.jsx';
-import { ResultProvider } from './context/ResultContext.jsx'; // Use ResultProvider, not ResultContext
+import { ResultProvider } from './context/ResultContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <BlockchainProvider>
       <StudentTeacherProvider>
         <IpfsProvider>
-          <ResultProvider> 
+          <ResultProvider>
             <App />
           </ResultProvider>
         </IpfsProvider>

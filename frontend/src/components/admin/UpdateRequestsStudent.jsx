@@ -20,9 +20,9 @@ function UpdateRequestsStudent({ studentFactoryContract }) {
                 studentAccounts.map(async (account) => {
                     const studentContractAddress = await studentFactoryContract.methods.getStudent(account).call();
                     const studentContract = new web3.eth.Contract(Student.abi, studentContractAddress);
-                    const id = await studentContract.methods.id().call(); // Assuming there is an id method
-                    const name = await studentContract.methods.name().call(); // Assuming there is a name method
-                    return { account, id, name }; // Collect the details
+                    const id = await studentContract.methods.id().call();
+                    const name = await studentContract.methods.name().call();
+                    return { account, id, name };
                 })
             );
             setUpdateRequests(studentsWithDetails);
@@ -35,7 +35,7 @@ function UpdateRequestsStudent({ studentFactoryContract }) {
     };
 
     const handleUpdateClick = (studentAccount) => {
-        navigate(`update-student/${studentAccount}`); // Navigate to UpdateStudentForm with account
+        navigate(`update-student/${studentAccount}`);
     };
 
     if (loading) {
@@ -54,13 +54,13 @@ function UpdateRequestsStudent({ studentFactoryContract }) {
                     {updateRequests.map((student, index) => (
                         <li key={index} className="mb-2">
                             <div>
-                                <strong>Student ID:</strong> {student.id} {/* Display student ID */}
+                                <strong>Student ID:</strong> {student.id}
                             </div>
                             <div>
-                                <strong>Name:</strong> {student.name} {/* Display student name */}
+                                <strong>Name:</strong> {student.name}
                             </div>
                             <div>
-                                <strong>Account Number:</strong> {student.account} {/* Display account number */}
+                                <strong>Account Number:</strong> {student.account}
                             </div>
                             <button
                                 onClick={() => handleUpdateClick(student.account)}

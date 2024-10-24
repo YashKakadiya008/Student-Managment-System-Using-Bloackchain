@@ -3,10 +3,10 @@ import { useStudentTeacher } from '../../context/StudentTeacherContext';
 import { useParams } from 'react-router-dom';
 
 const ViewStudentEvents = () => {
-  const { studentAccount } = useParams(); // Get student account from URL parameters
-  const {  getCertificates } = useStudentTeacher();
- 
-  
+  const { studentAccount } = useParams();
+  const { getCertificates } = useStudentTeacher();
+
+
   const [certificates, setCertificates] = useState([]);
 
   useEffect(() => {
@@ -27,7 +27,6 @@ const ViewStudentEvents = () => {
           certificates.map((cert, index) => (
             <div key={index} className="border rounded p-4 shadow">
               <h3 className="text-xl font-semibold">{cert.eventName}</h3>
-              {/* Ensure eventDate is displayed correctly */}
               <p className="mt-2">Date: {new Date(cert.eventDate.toString() * 1000).toLocaleDateString()}</p>
               <p className="mt-2">File Hash: {cert.fileHash}</p>
               <p className="mt-2">Remark: {cert.eventRemark}</p>
